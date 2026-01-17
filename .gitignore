@@ -1,0 +1,50 @@
+
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*.pyo
+
+# ===== Virtual Environments =====
+venv/
+.venv/
+.env
+.env.*
+
+# ===== Logs =====
+logs/
+*.log
+
+# ===== Docker =====
+.pgdata/
+pgdata/
+docker-data/
+*.pid
+
+# ===== Databases =====
+*.db
+*.sqlite3
+
+# ===== OS / IDE =====
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ===== Tests / Coverage =====
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ===== Mypy / Ruff / Lint =====
+.mypy_cache/
+.ruff_cache/
+
+# ===== Node / Frontend (if exists) =====
+node_modules/
+dist/
+build/
+
+# ===== Secrets =====
+*.pem
+*.key
+*.crt
