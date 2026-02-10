@@ -1,142 +1,163 @@
-# Bitaxe Monitor – Backend
+# ⚡ Bitaxe Monitor – Home Bitcoin Miner Backend
 
-Backend monitoring service for a Bitaxe miner, built with **FastAPI**, **PostgreSQL**, **Docker**, and **Telegram Bot integration**.
-The system collects telemetry data, stores it in a database, and sends alerts / status updates via Telegram.
+A **backend monitoring system for a home Bitcoin miner (Bitaxe Gamma 601)**, built as a personal hobby project that evolved into a full production-style backend.
 
----
-
-## Features
-
-- FastAPI REST backend
-- PostgreSQL database with Alembic migrations
-- Telegram Bot integration (Webhook-based)
-- Docker & Docker Compose setup
-- Separation of concerns: API, services, repositories
-- Environment-based configuration
+The goal of this project is to make **Bitcoin mining more accessible and understandable**, especially for people without deep technical or mining background, by providing clear metrics, alerts, and a simple dashboard.
 
 ---
 
-## Tech Stack
+## 🚀 What Is Bitaxe?
 
-- Python 3.11
-- FastAPI
-- PostgreSQL 16
-- SQLAlchemy + Alembic
-- Docker / Docker Compose
-- Telegram Bot API
-- ngrok (for local webhook testing)
+**Bitaxe** is an open-source, low-power Bitcoin mining device designed for home use.  
+Unlike industrial mining rigs, it is quiet, energy-efficient, and often used as a **learning or hobby miner**.
+
+This project was built around a real Bitaxe Gamma 601 device running at home.
 
 ---
 
-## Project Structure
+## 🎯 Project Goals
 
+- Monitor a home Bitcoin miner in real time
+- Collect telemetry and operational metrics automatically
+- Notify users when something goes wrong
+- Present data in a simple, understandable way
+- Serve as an educational backend project around Bitcoin mining
+
+---
+
+## 🧠 Key Features
+
+- **REST API** built with FastAPI
+- **Scheduled data collection** (polling the miner at fixed intervals)
+- **Real-time alerts** via Telegram
+- **Persistent storage** with PostgreSQL
+- **Caching** for frequently accessed metrics
+- **Dockerized** services for easy deployment
+- **React + Vite dashboard** for visualization
+
+---
+
+## 🧱 Architecture Overview
+
+```text
+┌──────────────┐
+│   Bitaxe     │
+│  (Miner HW)  │
+└──────┬───────┘
+       │ HTTP / JSON
+┌──────▼───────┐
+│   Poller     │  (Scheduled jobs)
+└──────┬───────┘
+┌──────▼───────┐
+│   FastAPI    │  (REST API)
+│   Routers    │
+└──────┬───────┘
+┌──────▼───────┐
+│   Services   │  (Business logic)
+└──────┬───────┘
+┌──────▼───────┐
+│ Repositories │  (DB access)
+└──────┬───────┘
+┌──────▼───────┐
+│ PostgreSQL   │
+└──────────────┘
+
+Additional integrations:
+- Telegram Bot (alerts)
+- React/Vite Dashboard (frontend)
 ```
-backend/
-├── alembic/
-├── app/
-│   ├── api/
-│   │   └── v1/
-│   │       └── telegram/
-│   ├── core/
-│   │   ├── config.py
-│   │   └── logging.py
-│   ├── services/
-│   │   └── telegram_service.py
-│   ├── repositories/
-│   ├── models/
-│   └── main.py
+
+---
+
+## 🛠 Tech Stack
+
+| Category | Technology |
+|-------|------------|
+| Backend | Python 3.11, FastAPI |
+| Database | PostgreSQL |
+| Scheduling | Background polling |
+| Alerts | Telegram Bot |
+| Frontend | React + Vite |
+| Containers | Docker |
+| Deployment | Docker Compose |
+
+---
+
+## 📁 Project Structure
+
+```text
+bitaxe-monitor/
+├── backend/
+│   ├── app/
+│   │   ├── api/
+│   │   ├── services/
+│   │   ├── repositories/
+│   │   ├── models/
+│   │   ├── infra/
+│   │   └── main.py
+│   └── Dockerfile
+├── frontend/
+│   ├── src/
+│   └── vite.config.ts
 ├── docker-compose.yml
-├── Dockerfile
-├── requirements.txt
 └── README.md
 ```
 
 ---
 
-## Environment Variables
-
-Create a `.env` file (not committed to Git):
-
-```env
-DATABASE_URL=postgresql+psycopg://postgres:postgres@db:5432/bitaxe_monitor_db
-
-TELEGRAM_BOT_TOKEN=your_bot_token_here
-TELEGRAM_WEBHOOK_SECRET=your_webhook_secret_here
-```
-
----
-
-## Running the Project (Docker)
+## ▶️ Running Locally
 
 ```bash
 docker compose up --build
 ```
 
-API:
+Backend API:
 ```
 http://localhost:8000
 ```
 
-Swagger:
+Frontend dashboard:
 ```
-http://localhost:8000/docs
-```
-
----
-
-## Telegram Webhook Setup
-
-```bash
-ngrok http 8000
-```
-
-```bash
-curl -X POST "https://api.telegram.org/bot<YOUR_BOT_TOKEN>/setWebhook"   -d "url=https://<NGROK_URL>/api/v1/telegram/webhook"   -d "secret_token=<YOUR_WEBHOOK_SECRET>"
-```
-
-Verify:
-```bash
-curl "https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getWebhookInfo"
+http://localhost:5173
 ```
 
 ---
 
-## Webhook Endpoint
+## 🔔 Alerts & Monitoring
 
-```
-POST /api/v1/telegram/webhook
-```
+The system sends Telegram alerts for:
+- Miner offline
+- Temperature thresholds
+- Hashrate drops
+- General health issues
 
-- Validates Telegram secret header
-- Receives Telegram Update payload
-- Delegates logic to service layer
-
----
-
-## Database Migrations
-
-```bash
-docker compose exec api alembic upgrade head
-```
+This allows hands-off monitoring of a home miner.
 
 ---
 
-## Security
+## 🧩 Why This Project Is Interesting
 
-- Do not commit `.env`
-- Revoke exposed tokens
-- Webhook secret validation enabled
-
----
-
-## Purpose
-
-Portfolio / learning project demonstrating backend architecture,
-external integrations, and Docker-based workflows.
+- Built around **real hardware**
+- Combines backend, scheduling, alerts, and visualization
+- Designed for **non-expert users**
+- Demonstrates end-to-end ownership of a system
+- Strong example of a hobby project turned into a serious backend system
 
 ---
 
-## Author
+## 🚧 Future Improvements
 
-Saar Amikam  
-Backend Developer
+- Authentication & multi-user support
+- Historical charts & analytics
+- Prometheus / metrics export
+- Support for additional miners
+
+---
+
+## 👤 Author
+
+**Saar Amikam**  
+Backend Developer  
+Python · FastAPI · Systems · Cloud  
+
+---

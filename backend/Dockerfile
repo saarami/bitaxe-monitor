@@ -16,4 +16,3 @@ COPY alembic.ini ./alembic.ini
 COPY alembic ./alembic
 
 ENTRYPOINT ["bash", "scripts/entrypoint.sh"]
-CMD ["bash", "scripts/start_api.sh"]
