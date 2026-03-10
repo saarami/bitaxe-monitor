@@ -29,6 +29,7 @@ This project was built around a real Bitaxe Gamma 601 device running at home.
 
 - **REST API** built with FastAPI
 - **Scheduled data collection** (polling the miner at fixed intervals)
+- **Telegram-based user** interface for submitting and viewing miner data
 - **Real-time alerts** via Telegram
 - **Persistent storage** with PostgreSQL
 - **Caching** for frequently accessed metrics
@@ -96,9 +97,6 @@ bitaxe-monitor/
 │   │   ├── infra/
 │   │   └── main.py
 │   └── Dockerfile
-├── frontend/
-│   ├── src/
-│   └── vite.config.ts
 ├── docker-compose.yml
 └── README.md
 ```
@@ -114,11 +112,6 @@ docker compose up --build
 Backend API:
 ```
 http://localhost:8000
-```
-
-Frontend dashboard:
-```
-http://localhost:5173
 ```
 
 ---
@@ -149,7 +142,6 @@ This allows hands-off monitoring of a home miner.
 
 - Authentication & multi-user support
 - Historical charts & analytics
-- Prometheus / metrics export
 - Support for additional miners
 
 ---
